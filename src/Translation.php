@@ -67,7 +67,9 @@ class Translation
      */
     public function getLocale() : string
     {
-        return (string) $_SESSION['locale'] ?? $this->getDefaultLocale();
+        $locale = $_SESSION['locale'] ?? $this->getDefaultLocale();
+
+        return (string) ( empty( $locale ) ? $this->getDefaultLocale() :$locale );
     }
 
     /**
@@ -112,9 +114,9 @@ class Translation
      */
     public function getRoutePrefix() : string
     {
-        $locale = $this->request->segment( $this->getRequestSegment() );
-        
-        if ( $this->localeExist( $locale ) ) return (string) $locale;
+        $locale = (string) $this->request->segment( $this->getRequestSegment() );
+
+        return $this->localeExist( $locale ) ? $locale : '';
     }
 
     /**
@@ -122,7 +124,7 @@ class Translation
      *
      * @return int
      */
-    protected function getRequestSegment()
+    protected function getRequestSegment() : int
     {
         return $this->config->get( 'translation.request_segment', 1 );
     }
@@ -135,7 +137,7 @@ class Translation
      */
     public function setLocale( string $locale = 'en' )
     {
-        if ( ! $this->localeExist( $locale ) ) {
+        if ( ! empty( $locale ) && ! $this->localeExist( $locale ) ) {
             $message = 'Invalid Argument! Locale passed does not exist.';
 
             throw new InvalidArgumentException( $message );
