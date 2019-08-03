@@ -7,13 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Translation extends Model
 {
     /**
-     * The translations table.
-     *
-     * @var string
-     */
-    protected $table = 'translations';
-
-    /**
      * The fillable translation attributes.
      *
      * @var array

@@ -69,7 +69,7 @@ class Translation
     {
         $locale = $_SESSION['locale'] ?? $this->getDefaultLocale();
 
-        return (string) ( empty( $locale ) ? $this->getDefaultLocale() :$locale );
+        return (string) ( empty( $locale ) ? $this->getDefaultLocale() : $locale );
     }
 
     /**
@@ -91,7 +91,11 @@ class Translation
      */
     protected function getDefaultLocale() : string
     {
-        return (string) $this->config->get( 'app.locale', $this->config->get('app.fallback_locale', 'en') );
+        $locale = $this->config->get( 'app.locale', $this->config->get('app.fallback_locale') );
+
+        $locale = $this->localeExist( $locale ) ? $locale : 'en';
+
+        return (string) $locale;
     }
 
     /**
@@ -207,12 +211,12 @@ class Translation
         if ( $do_translate ) {
             // Let's request for translation
             try {
-                $trans = (new T1( $this->getApiKey() ))->translate( $text, $to_locale, $locale );
+                $trans = (new T1( $this->getApiKey() ) )->translate( $text, $to_locale, $locale );
 
             } catch (\Exception $e) {
                 Log::info( $e->getMessage() );
 
-                // $trans = T2::trans( $text, $to_locale, $locale );
+                $trans = T2::trans( $text, $to_locale, $locale );
             }
         }
 
