@@ -43,6 +43,7 @@ Controller:
 public function index()
 {
     App::setLocale('fr');
+
     // Or Translation::setLocale( 'fr' );
 
     return view('home.index');
