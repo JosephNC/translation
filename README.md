@@ -86,18 +86,18 @@ Require the translation package
 Add the service provider to your `config/app.php` config file
 
 ```php
-'Josephnc\Translation\TranslationServiceProvider',
+JosephNC\Translation\TranslationServiceProvider::class,
 ```
 
 Add the facade to your aliases in your `config/app.php` config file
 
 ```php
-'Translation' => 'Josephnc\Translation\Facades\Translation',
+'Translation' => JosephNC\Translation\Facades\Translation::class,
 ```
 
 Publish the migrations
 
-    php artisan vendor:publish --provider="Josephnc\Translation\TranslationServiceProvider"
+    php artisan vendor:publish --provider="JosephNC\Translation\TranslationServiceProvider"
     
 Run the migrations
 
@@ -212,7 +212,7 @@ protected $routeMiddleware = [
     'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
 
     // Insert Locale Middleware
-    'locale' => \Josephnc\Translation\Middleware\LocaleMiddleware::class
+    'locale' => \JosephNC\Translation\Middleware\LocaleMiddleware::class
 ];
 ```
 
@@ -224,8 +224,8 @@ Route::group([
     'prefix'        => Translation::getRoutePrefix(),
     'middleware'    => ['locale'],
 ], function () {
-    Route::get('home', function ()
-    {
+
+    Route::get('home', function () {
         return view('home');
     });
 });
@@ -280,13 +280,13 @@ This is intended because it could be a completely different translation after mo
 For example using:
 
 ```php
-    {{ __trans('Welcome!') }}
+{{ __trans('Welcome!') }}
 ```
 
 And modifying it to:
 
 ```php
-    {{ __trans('Welcome') }}
+{{ __trans('Welcome') }}
 ```
 
 Would automatically generate a new translation record.
