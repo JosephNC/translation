@@ -19,7 +19,10 @@ class LocaleMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        Translation::setLocale( Translation::getRoutePrefix() ?? '' );
+        $lang = Translation::getRoutePrefix() ?? '';
+        $lang = empty( $lang ) ? Translation::getLocale() : $lang;
+
+        Translation::setLocale( $lang );
 
         return $next($request);
     }
